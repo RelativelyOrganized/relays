@@ -6,13 +6,13 @@
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# Splash is distributed in the hope that it will be useful,
+# Relays is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with Splash.  If not, see <http://www.gnu.org/licenses/>.
+# along with Relays.  If not, see <http://www.gnu.org/licenses/>.
 #
 
 #
@@ -31,6 +31,12 @@ include_directories(./)
 add_executable(relays)
 target_sources(relays PRIVATE
     relays.cpp
+    circuit.cpp
+)
+
+set_target_properties(relays PROPERTIES
+    CXX_STANDARD 17
+    CXX_EXTENSIONS OFF
 )
 
 install(TARGETS relays DESTINATION "bin/")

@@ -12,7 +12,8 @@ The goals of this project are mostly educational:
 Preliminary architecture
 ------------------------
 
-* a parser/lexer: read the configuration
-* a graph optimizer: organize relays configuration in memory to match their relationship
-* a traverser: apply a clock cycle to the configuration and update the relays accordingly
-* a way to set inputs and read outputs
+* **Relay**: base element for any circuit, currently merely a struct holding info about its status (command input, data input, data output and inverted data output).
+* **Connection**: a basic structure describing a connection from a **Relay** output to another one's input.
+* **Circuit**: a collection of **Relays** and **Connection** which together describe a more or less complexe virtual circuit.
+* **Organizer**: object which organizes the **Connections** of a **Circuit** so that by going through them sequentially, it will update the **Relays** from the inputs of the **Circuits** to its output.
+* **Traverser**: object which applies a clock cycle to a **Circuit**, and updates its **Relays** states accordingly. The **Traverser** needs the **Circuit** **Connections** to be organised by the **Organizer**.
