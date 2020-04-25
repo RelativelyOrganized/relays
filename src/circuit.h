@@ -21,8 +21,8 @@
 
 #include <vector>
 
-#include "./relay.h"
 #include "./connection.h"
+#include "./relay.h"
 
 namespace Relays
 {
@@ -35,17 +35,14 @@ class Circuit
      * \param circuit Circuit to add to this one
      * \return Return the id of the first relay added
      */
-    uint64_t push_circuit( const Circuit& circuit );
+    uint64_t push_circuit(const Circuit& circuit);
 
   public:
     bool ordered{false};
     std::vector<Relay> _relays;
     std::vector<Connection> _connections;
-
-    // TODO: inputs/outputs of circuit should be N firsts / M lasts relays of the circuit?
-    // -> inputs would then be updated first, and outputs last
 };
 
-}
+} // namespace Relays
 
 #endif // __RELAYS_CIRCUIT_H__

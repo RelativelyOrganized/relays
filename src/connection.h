@@ -16,7 +16,6 @@
  *
  */
 
-
 #ifndef __RELAYS_CONNECTION_H__
 #define __RELAYS_CONNECTION_H__
 
@@ -27,19 +26,19 @@ namespace Relays
 
 enum class Slot : int
 {
-    Input       = 0,
-    Command     = 1
+    Input = 0,
+    Command = 1
 };
 
 class Connection
 {
-public:
+  public:
     std::uint64_t from{0};
     std::uint64_t to{0};
     Slot slot{Slot::Input};
     bool invert{false};
 };
 
-}
+} // namespace Relays
 
 #endif //__RELAYS_CONNECTION_H__

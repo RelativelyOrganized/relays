@@ -10,4 +10,4 @@ Circuit Organizer::order(const Circuit& circuit)
     return ordered_circuit;
 }
 
-}
+} // namespace Relays

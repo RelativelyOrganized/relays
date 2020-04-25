@@ -32,9 +32,21 @@ class Traverser
      * \param circuit Circuit to traverse
      * \return Return false if the circuit was not organized
      */
-    bool traverse( Circuit& circuit );
+    bool traverse(Circuit& circuit);
+
+    /**
+     * Updates the current face of the circuit.
+     * \param circuit Circuit to work on
+     */
+    void update(Circuit& circuit);
+
+    /**
+     * Transferts the outputs of the relays to the connected inputs (input or command).
+     * \param circuit Circuit to work on
+     */
+    void transfer(Circuit& circuit);
 };
 
-}
+} // namespace Relays
 
 #endif //__RELAYS_TRAVERSER_H__

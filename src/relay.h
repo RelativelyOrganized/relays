@@ -20,18 +20,21 @@
 #ifndef __RELAYS_RELAY_H__
 #define __RELAYS_RELAY_H__
 
+#include <ostream>
+
 namespace Relays
 {
 
 class Relay
 {
   public:
-    bool command{false};
     bool input{false};
+    bool command{false};
     bool output{false};
-//    bool inverted{false};
+
+    friend std::ostream& operator<<(std::ostream& stream, Relay& relay);
 };
 
-}
+} // namespace Relays
 
 #endif // __RELAYS_RELAY_H__

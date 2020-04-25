@@ -22,7 +22,7 @@
 namespace Relays
 {
 
-uint64_t Circuit::push_circuit( const Circuit& circuit )
+uint64_t Circuit::push_circuit(const Circuit& circuit)
 {
     if (circuit._relays.empty())
     {
@@ -39,17 +39,19 @@ uint64_t Circuit::push_circuit( const Circuit& circuit )
 
     // Lets copy the connections. We need to offset the ids.
     _connections.reserve(_connections.size() + circuit._connections.size());
-    std::transform(circuit._connections.begin(), circuit._connections.end(), _connections.begin(), [ this, offset = circuit_start ]( const Relays::Connection& input )
-    {
-        Connection output;
-        output.from = input.from + offset;
-        output.to = input.to + offset;
-        output.invert = input.invert;
-        return output;
-    });
+    std::transform(circuit._connections.begin(),
+        circuit._connections.end(),
+        _connections.begin(),
+        [this, offset = circuit_start](const Relays::Connection& input) {
+            Connection output;
+            output.from = input.from + offset;
+            output.to = input.to + offset;
+            output.invert = input.invert;
+            return output;
+        });
 
     // Done
     return circuit_start;
 }
 
-}
+} // namespace Relays

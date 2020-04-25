@@ -1,4 +1,5 @@
 /*
+ *
  * This file is part of Relays.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,27 +17,15 @@
  *
  */
 
-#ifndef __RELAYS_ORGANIZER_H__
-#define __RELAYS_ORGANIZER_H__
-
-#include "./circuit.h"
+#include "./relay.h"
 
 namespace Relays
 {
 
-class Organizer
+std::ostream& operator<<(std::ostream& stream, Relay& relay)
 {
-  public:
-    /**
-     * Orders the connections of a circuit so that going through them
-     * sequentially results in going from its inputs to its outputs without
-     * skipping the update of a relay
-     * \param circuit Circuit to reorder
-     * \return Return the same circuit, reordered
-     */
-    Circuit order(const Circuit& circuit);
-};
+    stream << "i: " << relay.input << " && c: " << relay.command << " => " << relay.output;
+    return stream;
+}
 
 } // namespace Relays
-
-#endif // __RELAYS_ORGANIZER_H__

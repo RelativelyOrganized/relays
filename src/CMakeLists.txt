@@ -33,6 +33,8 @@ target_sources(relays PRIVATE
     relays.cpp
     circuit.cpp
     organizer.cpp
+    traverser.cpp
+    relay.cpp
 )
 
 set_target_properties(relays PROPERTIES
