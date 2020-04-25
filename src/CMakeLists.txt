@@ -32,6 +32,7 @@ add_executable(relays)
 target_sources(relays PRIVATE
     relays.cpp
     circuit.cpp
+    organizer.cpp
 )
 
 set_target_properties(relays PROPERTIES
