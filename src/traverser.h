@@ -30,21 +30,27 @@ class Traverser
     /**
      * Traverses a circuit, and updates its state along the way
      * \param circuit Circuit to traverse
+     * \param now Time since epoch
+     * \param dt Time step since previous update, in ns
      * \return Return false if the circuit was not organized
      */
-    bool traverse(Circuit& circuit);
+    bool step(Circuit& circuit, uint64_t now, uint32_t dt);
 
     /**
      * Updates the current face of the circuit.
      * \param circuit Circuit to work on
+     * \param now Time since epoch
+     * \param dt Time step since previous update, in ns
      */
-    void update(Circuit& circuit);
+    void update(Circuit& circuit, uint64_t now, uint32_t dt);
 
     /**
      * Transferts the outputs of the relays to the connected inputs (input or command).
      * \param circuit Circuit to work on
+     * \param now Time since epoch
+     * \param dt Time step since previous update, in ns
      */
-    void transfer(Circuit& circuit);
+    void transfer(Circuit& circuit, uint64_t now, uint32_t dt);
 };
 
 } // namespace Relays

@@ -6,18 +6,15 @@
 namespace Relays
 {
 
-bool Traverser::traverse(Circuit& circuit)
+bool Traverser::step(Circuit& circuit, uint64_t now, uint32_t dt)
 {
-    if (!circuit.ordered)
-        return false;
-
-    update(circuit);
-    transfer(circuit);
+    update(circuit, now, dt);
+    transfer(circuit, now, dt);
 
     return true;
 }
 
-void Traverser::update(Circuit& circuit)
+void Traverser::update(Circuit& circuit, uint64_t /*now*/, uint32_t /*dt*/)
 {
     if (unlikely(circuit._relays.empty()))
         return;
@@ -31,7 +28,7 @@ void Traverser::update(Circuit& circuit)
     }
 }
 
-void Traverser::transfer(Circuit& circuit)
+void Traverser::transfer(Circuit& circuit, uint64_t /*now*/, uint32_t /*dt*/)
 {
     // Outputs to inputs transmission step
     if (unlikely(circuit._connections.empty()))

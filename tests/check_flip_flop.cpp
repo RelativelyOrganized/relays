@@ -8,7 +8,6 @@
 int main()
 {
     Relays::Circuit flip_flop;
-    flip_flop.ordered = true;
 
     flip_flop._relays.resize(2);
     Relays::Relay& r1 = flip_flop._relays.at(0);
@@ -33,14 +32,16 @@ int main()
     r1.input = true;
     r2.input = true;
 
-    traverser.transfer(flip_flop);
-
     bool desired_state = true;
+    const uint32_t timePerStep = 5;
+    uint64_t timeSinceEpoch = 0;
+
     for (int i = 0; i < 100; ++i)
     {
         assert(r1.output == desired_state && r2.output == desired_state);
         desired_state = !desired_state;
-        traverser.traverse(flip_flop);
+        traverser.step(flip_flop, timeSinceEpoch, timePerStep);
+        timeSinceEpoch += timePerStep;
     }
 
     return 0;
