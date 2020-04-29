@@ -19,3 +19,7 @@ include_directories(../src/)
 
 add_executable(check_example check_example.cpp)
 add_test(check_example check_example)
+
+add_executable(check_flip_flop check_flip_flop.cpp)
+target_link_libraries(check_flip_flop relays-${API_VERSION})
+add_test(check_flip_flop check_flip_flop)

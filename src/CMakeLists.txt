@@ -28,14 +28,17 @@ include_directories(./)
 #
 # Targets
 #
-add_executable(relays)
-target_sources(relays PRIVATE
+add_library(relays-${API_VERSION} STATIC)
+add_executable(relays relay.cpp)
+
+target_sources(relays-${API_VERSION} PRIVATE
     relays.cpp
     circuit.cpp
     organizer.cpp
     traverser.cpp
-    relay.cpp
 )
+
+target_link_libraries(relays relays-${API_VERSION})
 
 set_target_properties(relays PROPERTIES
     CXX_STANDARD 17
