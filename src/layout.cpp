@@ -32,27 +32,36 @@ uint64_t Layout::push_layout(const Layout& layout)
     }
 
     // This contains the id of the first relay that shall be imported from layout
-    uint64_t layout_start = _relays.size();
+    uint64_t relay_start = _relays.size();
+    uint64_t clock_start = _clocks.size();
 
-    // Lets copy the relays
+    // Copy the relays
     _relays.reserve(_relays.size() + layout._relays.size());
     std::copy(layout._relays.begin(), layout._relays.end(), std::back_inserter(_relays));
 
-    // Lets copy the connections. We need to offset the ids.
+    // Copy the clocks
+    _clocks.reserve(_clocks.size() + layout._clocks.size());
+    std::copy(layout._clocks.begin(), layout._clocks.end(), std::back_inserter(_clocks));
+
+    // Copy the connections. We need to offset the ids.
     _connections.reserve(_connections.size() + layout._connections.size());
     std::transform(layout._connections.begin(),
         layout._connections.end(),
         _connections.begin(),
-        [this, offset = layout_start](const Relays::Connection& input) {
+        [this, relay_start, clock_start](const Relays::Connection& input) {
             Connection output;
-            output.from = input.from + offset;
-            output.to = input.to + offset;
+            if (input.source == Source::Relay)
+                output.from = input.from + relay_start;
+            else // input.source == Source::Clock
+                output.from = input.from + clock_start;
+            output.to = input.to + relay_start;
+            output.slot = input.slot;
             output.invert = input.invert;
             return output;
         });
 
     // Done
-    return layout_start;
+    return relay_start;
 }
 
 } // namespace Relays

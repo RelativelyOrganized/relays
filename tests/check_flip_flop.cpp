@@ -1,3 +1,5 @@
+#undef NDEBUG // get assert in release mode
+
 #include <cassert>
 
 #include "./circuit.h"

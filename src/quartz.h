@@ -16,36 +16,43 @@
  *
  */
 
-#ifndef __RELAYS_CONNECTION_H__
-#define __RELAYS_CONNECTION_H__
+#ifndef __RELAYS_QUARTZ_H__
+#define __RELAYS_QUARTZ_H__
 
+#include <cassert>
 #include <cstdint>
+
+#include "./clock.h"
+#include "./slot_types.h"
 
 namespace Relays
 {
 
-enum class Slot : int
-{
-    Input = 0,
-    Command = 1
-};
-
-enum class Source : int
-{
-    Relay = 0,
-    Clock = 1
-};
-
-class Connection
+class Quartz
 {
   public:
-    uint64_t from{0};
-    uint64_t to{0};
-    Slot slot{Slot::Input};
-    Source source{Source::Relay};
-    bool invert{false};
+    /**
+     * Constructor
+     * \param clock Clock to construct the Quartz from
+     */
+    Quartz(const Clock& clock) { period = clock.period; }
+
+    /**
+     * Step through the quartz and update its output
+     * \param now Time since epoch
+     * \param dt Time since last update
+     */
+    void step(uint64_t epoch, uint32_t /*dt*/)
+    {
+        auto currentPeriod = static_cast<uint64_t>(static_cast<double>(epoch) / period);
+        output = static_cast<Output>(currentPeriod % 2);
+    }
+
+  public:
+    Output output{Output::False};
+    double period;
 };
 
 } // namespace Relays
 
-#endif //__RELAYS_CONNECTION_H__
+#endif // __RELAYS_QUARTZ_H__

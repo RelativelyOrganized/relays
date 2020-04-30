@@ -1,3 +1,7 @@
+#undef NDEBUG // get assert in release mode
+
+#include <cassert>
+
 #include "./circuit.h"
 #include "./connection.h"
 #include "./layout.h"

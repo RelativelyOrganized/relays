@@ -28,6 +28,10 @@ add_executable(check_circuit check_circuit.cpp)
 target_link_libraries(check_circuit relays-${API_VERSION})
 add_test(check_circuit check_circuit)
 
+add_executable(check_quartz check_quartz.cpp)
+target_link_libraries(check_quartz relays-${API_VERSION})
+add_test(check_quartz check_quartz)
+
 #
 # Code coverage
 #

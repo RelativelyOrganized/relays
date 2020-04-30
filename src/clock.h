@@ -16,36 +16,52 @@
  *
  */
 
-#ifndef __RELAYS_CONNECTION_H__
-#define __RELAYS_CONNECTION_H__
+#ifndef __RELAYS_CLOCK_H__
+#define __RELAYS_CLOCK_H__
 
+#include <cassert>
 #include <cstdint>
+
+#include "./slot_types.h"
 
 namespace Relays
 {
 
-enum class Slot : int
-{
-    Input = 0,
-    Command = 1
-};
-
-enum class Source : int
-{
-    Relay = 0,
-    Clock = 1
-};
-
-class Connection
+class Clock
 {
   public:
-    uint64_t from{0};
-    uint64_t to{0};
-    Slot slot{Slot::Input};
-    Source source{Source::Relay};
-    bool invert{false};
+    /**
+     * Constructor
+     */
+    Clock() { period = 1.0 / frequency; }
+
+    /**
+     * Set the clock frequency
+     * \param freq Frequency
+     */
+    inline void setFrequency(double freq)
+    {
+        assert(freq != 0.0);
+        frequency = freq;
+        period = 1.0 / freq;
+    }
+
+    /**
+     * Set the clock period
+     * \param period Period
+     */
+    inline void setPeriod(double period)
+    {
+        assert(period != 0.0);
+        period = period;
+        frequency = 1.0 / period;
+    }
+
+  public:
+    double frequency{100.0};
+    double period;
 };
 
 } // namespace Relays
 
-#endif //__RELAYS_CONNECTION_H__
+#endif // __RELAYS_CLOCK_H__

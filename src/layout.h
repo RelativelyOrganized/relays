@@ -21,6 +21,7 @@
 
 #include <vector>
 
+#include "./clock.h"
 #include "./connection.h"
 #include "./relay.h"
 
@@ -40,6 +41,7 @@ class Layout
   public:
     std::vector<Relay> _relays;
     std::vector<Connection> _connections;
+    std::vector<Clock> _clocks;
 };
 
 } // namespace Relays

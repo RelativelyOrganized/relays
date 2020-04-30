@@ -22,6 +22,10 @@ void Traverser::update(Circuit& circuit, uint64_t now, uint32_t dt)
     // Transistors outputs update step
     for (auto& transistor : circuit._transistors)
         transistor.step(now, dt);
+
+    // Quartz update step
+    for (auto& quartz : circuit._quartz)
+        quartz.step(now, dt);
 }
 
 void Traverser::transfer(Circuit& circuit, uint64_t now, uint32_t dt)
