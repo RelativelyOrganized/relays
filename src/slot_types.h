@@ -17,37 +17,24 @@
  *
  */
 
-#ifndef __RELAYS_RELAY_H__
-#define __RELAYS_RELAY_H__
-
-#include <ostream>
-
-#include "./slot_types.h"
+#ifndef __RELAYS_SLOT_TYPE_H__
+#define __RELAYS_SLOT_TYPE_H__
 
 namespace Relays
 {
 
-class Relay
+enum class Input : bool
 {
-  public:
-    /**
-     * Evaluate relay's output given its input and command
-     * \param now Time since epoch
-     * \param dt Time step since previous update, in ns
-     */
-    void step(uint64_t /*now*/, uint32_t /*dt*/)
-    {
-        output = static_cast<Output>((static_cast<bool>(input) && static_cast<bool>(command)));
-    }
+    True = true,
+    False = false
+};
 
-  public:
-    Input input{Input::False};
-    Input command{Input::False};
-    Output output{Output::False};
-
-    friend std::ostream& operator<<(std::ostream& stream, Relay& relay);
+enum class Output : bool
+{
+    True = true,
+    False = false
 };
 
 } // namespace Relays
 
-#endif // __RELAYS_RELAY_H__
+#endif // __RELAYS_SLOT_TYPE_H__

@@ -19,23 +19,32 @@
 #ifndef __RELAYS_CONNECTION_H__
 #define __RELAYS_CONNECTION_H__
 
+#include <cassert>
 #include <cstdint>
+
+#include "./slot_types.h"
 
 namespace Relays
 {
 
-enum class Slot : int
-{
-    Input = 0,
-    Command = 1
-};
-
 class Connection
 {
   public:
-    std::uint64_t from{0};
-    std::uint64_t to{0};
-    Slot slot{Slot::Input};
+    /**
+     * Evaluate the connection
+     * \param now Time since epoch
+     * \param dt Time step since previous update, in ns
+     */
+    void step(uint64_t /*now*/, uint32_t /*dt*/) const
+    {
+        assert(from != nullptr);
+        assert(to != nullptr);
+        *to = static_cast<Input>(static_cast<bool>(from) != invert);
+    }
+
+  public:
+    Output* from{nullptr};
+    Input* to{nullptr};
     bool invert{false};
 };
 

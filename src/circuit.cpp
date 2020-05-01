@@ -38,6 +38,7 @@ uint64_t Circuit::push_circuit(const Circuit& circuit)
     std::copy(circuit._relays.begin(), circuit._relays.end(), std::back_inserter(_relays));
 
     // Lets copy the connections. We need to offset the ids.
+    // FIXME: this can't possibly work anymore with pointers in Connection
     _connections.reserve(_connections.size() + circuit._connections.size());
     std::transform(circuit._connections.begin(),
         circuit._connections.end(),

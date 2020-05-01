@@ -24,7 +24,8 @@ namespace Relays
 
 std::ostream& operator<<(std::ostream& stream, Relay& relay)
 {
-    stream << "i: " << relay.input << " && c: " << relay.command << " => " << relay.output;
+    stream << "i: " << static_cast<bool>(relay.input) << " && c: " << static_cast<bool>(relay.command) << " => "
+           << static_cast<bool>(relay.output);
     return stream;
 }
 
