@@ -30,7 +30,7 @@ namespace Relays
 class Circuit
 {
   public:
-    /*
+    /**
      * Pushes a copy of the circuit and returns the id of its first relay
      * \param circuit Circuit to add to this one
      * \return Return the id of the first relay added
@@ -38,7 +38,6 @@ class Circuit
     uint64_t push_circuit(const Circuit& circuit);
 
   public:
-    bool ordered{false};
     std::vector<Relay> _relays;
     std::vector<Connection> _connections;
 };

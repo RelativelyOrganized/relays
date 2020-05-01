@@ -15,5 +15,5 @@ Preliminary architecture
 * **Relay**: base element for any circuit, currently merely a struct holding info about its status (command input, data input, data output and inverted data output).
 * **Connection**: a basic structure describing a connection from a **Relay** output to another one's input.
 * **Circuit**: a collection of **Relays** and **Connection** which together describe a more or less complexe virtual circuit.
-* **Organizer**: object which organizes the **Connections** of a **Circuit** so that by going through them sequentially, it will update the **Relays** from the inputs of the **Circuits** to its output.
-* **Traverser**: object which applies a clock cycle to a **Circuit**, and updates its **Relays** states accordingly. The **Traverser** needs the **Circuit** **Connections** to be organised by the **Organizer**.
+* **Traverser**: object which applies a clock cycle to a **Circuit**, and updates its **Relays** states accordingly.
+* **Simulation**: object which drives the **Traverser**, in particular its time resolution.
