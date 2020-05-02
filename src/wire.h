@@ -16,24 +16,38 @@
  *
  */
 
-#ifndef __RELAYS_CIRCUIT_H__
-#define __RELAYS_CIRCUIT_H__
+#ifndef __RELAYS_WIRE_H__
+#define __RELAYS_WIRE_H__
 
-#include <vector>
+#include <cassert>
+#include <cstdint>
 
-#include "./relay.h"
-#include "./wire.h"
+#include "./slot_types.h"
 
 namespace Relays
 {
 
-class Circuit
+class Wire
 {
   public:
-    std::vector<Relay> _relays;
-    std::vector<Wire> _wires;
+    /**
+     * Evaluate the connection
+     * \param now Time since epoch
+     * \param dt Time step since previous update, in ns
+     */
+    void step(uint64_t /*now*/, uint32_t /*dt*/) const
+    {
+        assert(from != nullptr);
+        assert(to != nullptr);
+        *to = static_cast<Input>(static_cast<bool>(from) != invert);
+    }
+
+  public:
+    Output* from{nullptr};
+    Input* to{nullptr};
+    bool invert{false};
 };
 
 } // namespace Relays
 
-#endif // __RELAYS_CIRCUIT_H__
+#endif //__RELAYS_WIRE_H__

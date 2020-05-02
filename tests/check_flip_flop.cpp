@@ -1,9 +1,9 @@
 #include <cassert>
 
 #include "./circuit.h"
-#include "./connection.h"
 #include "./relay.h"
 #include "./traverser.h"
+#include "./wire.h"
 
 int main()
 {
@@ -13,9 +13,9 @@ int main()
     Relays::Relay& r1 = flip_flop._relays.at(0);
     Relays::Relay& r2 = flip_flop._relays.at(1);
 
-    flip_flop._connections.resize(2);
-    Relays::Connection& conn_r1_r2_cmd_inv = flip_flop._connections.at(0);
-    Relays::Connection& conn_r2_r1_cmd = flip_flop._connections.at(1);
+    flip_flop._wires.resize(2);
+    Relays::Wire& conn_r1_r2_cmd_inv = flip_flop._wires.at(0);
+    Relays::Wire& conn_r2_r1_cmd = flip_flop._wires.at(1);
 
     conn_r1_r2_cmd_inv.from = &r1.output;
     conn_r1_r2_cmd_inv.to = &r2.command;

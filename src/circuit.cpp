@@ -22,37 +22,4 @@
 namespace Relays
 {
 
-uint64_t Circuit::push_circuit(const Circuit& circuit)
-{
-    if (circuit._relays.empty())
-    {
-        // TODO: error management
-        return 0;
-    }
-
-    // This contains the id of the first relay that shall be imported from circuit
-    uint64_t circuit_start = _relays.size();
-
-    // Lets copy the relays
-    _relays.reserve(_relays.size() + circuit._relays.size());
-    std::copy(circuit._relays.begin(), circuit._relays.end(), std::back_inserter(_relays));
-
-    // Lets copy the connections. We need to offset the ids.
-    // FIXME: this can't possibly work anymore with pointers in Connection
-    _connections.reserve(_connections.size() + circuit._connections.size());
-    std::transform(circuit._connections.begin(),
-        circuit._connections.end(),
-        _connections.begin(),
-        [this, offset = circuit_start](const Relays::Connection& input) {
-            Connection output;
-            output.from = input.from + offset;
-            output.to = input.to + offset;
-            output.invert = input.invert;
-            return output;
-        });
-
-    // Done
-    return circuit_start;
-}
-
 } // namespace Relays

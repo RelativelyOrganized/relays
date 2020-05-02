@@ -33,6 +33,7 @@ add_library(relays-${API_VERSION} STATIC)
 target_sources(relays-${API_VERSION} PRIVATE
     relay.cpp
     circuit.cpp
+    layout.cpp
     simulation.cpp
     traverser.cpp
 )

@@ -27,11 +27,11 @@ void Traverser::update(Circuit& circuit, uint64_t now, uint32_t dt)
 void Traverser::transfer(Circuit& circuit, uint64_t now, uint32_t dt)
 {
     // Outputs to inputs transmission step
-    if (unlikely(circuit._connections.empty()))
+    if (unlikely(circuit._wires.empty()))
         return;
 
-    for (const auto& connection : circuit._connections)
-        connection.step(now, dt);
+    for (const auto& wire : circuit._wires)
+        wire.step(now, dt);
 }
 
 } // namespace Relays

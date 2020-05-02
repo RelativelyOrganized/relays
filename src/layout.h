@@ -16,24 +16,32 @@
  *
  */
 
-#ifndef __RELAYS_CIRCUIT_H__
-#define __RELAYS_CIRCUIT_H__
+#ifndef __RELAYS_LAYOUT_H__
+#define __RELAYS_LAYOUT_H__
 
 #include <vector>
 
+#include "./connection.h"
 #include "./relay.h"
-#include "./wire.h"
 
 namespace Relays
 {
 
-class Circuit
+class Layout
 {
   public:
+    /**
+     * Pushes a copy of the layout and returns the id of its first relay
+     * \param layout Layout to add to this one
+     * \return Return the id of the first relay added
+     */
+    uint64_t push_layout(const Layout& layout);
+
+  public:
     std::vector<Relay> _relays;
-    std::vector<Wire> _wires;
+    std::vector<Connection> _connections;
 };
 
 } // namespace Relays
 
-#endif // __RELAYS_CIRCUIT_H__
+#endif // __RELAYS_LAYOUT_H__
