@@ -17,7 +17,6 @@
  */
 
 #include "./circuit.h"
-#include <algorithm>
 
 namespace Relays
 {

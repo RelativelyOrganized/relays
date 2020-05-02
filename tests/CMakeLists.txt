@@ -24,6 +24,10 @@ add_executable(check_flip_flop check_flip_flop.cpp)
 target_link_libraries(check_flip_flop relays-${API_VERSION})
 add_test(check_flip_flop check_flip_flop)
 
+add_executable(check_circuit check_circuit.cpp)
+target_link_libraries(check_circuit relays-${API_VERSION})
+add_test(check_circuit check_circuit)
+
 #
 # Code coverage
 #

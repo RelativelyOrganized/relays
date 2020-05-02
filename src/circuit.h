@@ -31,6 +31,21 @@ namespace Relays
 class Circuit
 {
   public:
+    /**
+     * Default constructor
+     */
+    Circuit() = default;
+
+    /**
+     * Construct a circuit from the given layout
+     * \param layout Layout
+     */
+    Circuit(const Layout& layout) { setFromLayout(layout); }
+
+    /**
+     * Set the circuit from the given Layout
+     * \param layout Layout
+     */
     void setFromLayout(const Layout& layout);
 
   public:
