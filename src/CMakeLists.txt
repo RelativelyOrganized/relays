@@ -31,9 +31,10 @@ include_directories(./)
 add_library(relays-${API_VERSION} STATIC)
 
 target_sources(relays-${API_VERSION} PRIVATE
-    relay.cpp
     circuit.cpp
+    layout.cpp
     simulation.cpp
+    transistor.cpp
     traverser.cpp
 )
 

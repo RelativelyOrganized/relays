@@ -1,4 +1,5 @@
 /*
+ *
  * This file is part of Relays.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,29 +17,24 @@
  *
  */
 
-#ifndef __RELAYS_CONNECTION_H__
-#define __RELAYS_CONNECTION_H__
-
-#include <cstdint>
+#ifndef __RELAYS_SLOT_TYPE_H__
+#define __RELAYS_SLOT_TYPE_H__
 
 namespace Relays
 {
 
-enum class Slot : int
+enum class Input : bool
 {
-    Input = 0,
-    Command = 1
+    True = true,
+    False = false
 };
 
-class Connection
+enum class Output : bool
 {
-  public:
-    uint64_t from{0};
-    uint64_t to{0};
-    Slot slot{Slot::Input};
-    bool invert{false};
+    True = true,
+    False = false
 };
 
 } // namespace Relays
 
-#endif //__RELAYS_CONNECTION_H__
+#endif // __RELAYS_SLOT_TYPE_H__

@@ -12,8 +12,15 @@ The goals of this project are mostly educational:
 Preliminary architecture
 ------------------------
 
-* **Relay**: base element for any circuit, currently merely a struct holding info about its status (command input, data input, data output and inverted data output).
-* **Connection**: a basic structure describing a connection from a **Relay** output to another one's input.
-* **Circuit**: a collection of **Relays** and **Connection** which together describe a more or less complexe virtual circuit.
+The following classes are involved at runtime, during a simulation:
+
+* **Transistor**: base element for any circuit, currently merely a struct holding info about its status (command input, data input, data output and inverted data output).
+* **Wire**: a basic structure describing a connection from a **Transistor** output to another one's input.
+* **Circuit**: a collection of **Transistors** and **Wires** which together describe a more or less complexe virtual circuit.
 * **Traverser**: object which applies a clock cycle to a **Circuit**, and updates its **Relays** states accordingly.
 * **Simulation**: object which drives the **Traverser**, in particular its time resolution.
+
+On top of that exists an intermediate representation of the system which is converted to a **Circuit** before running the simulation:
+* **Relay**: translates to a **Transistor** at runtime.
+* **Connection**: translates to a **Wire** at runtime.
+* **Layout**: translates to a **Circuit** at runtime.

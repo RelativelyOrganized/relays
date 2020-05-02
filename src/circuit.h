@@ -21,8 +21,9 @@
 
 #include <vector>
 
-#include "./connection.h"
-#include "./relay.h"
+#include "./layout.h"
+#include "./transistor.h"
+#include "./wire.h"
 
 namespace Relays
 {
@@ -31,15 +32,25 @@ class Circuit
 {
   public:
     /**
-     * Pushes a copy of the circuit and returns the id of its first relay
-     * \param circuit Circuit to add to this one
-     * \return Return the id of the first relay added
+     * Default constructor
      */
-    uint64_t push_circuit(const Circuit& circuit);
+    Circuit() = default;
+
+    /**
+     * Construct a circuit from the given layout
+     * \param layout Layout
+     */
+    Circuit(const Layout& layout) { setFromLayout(layout); }
+
+    /**
+     * Set the circuit from the given Layout
+     * \param layout Layout
+     */
+    void setFromLayout(const Layout& layout);
 
   public:
-    std::vector<Relay> _relays;
-    std::vector<Connection> _connections;
+    std::vector<Transistor> _transistors;
+    std::vector<Wire> _wires;
 };
 
 } // namespace Relays

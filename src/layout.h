@@ -16,29 +16,32 @@
  *
  */
 
-#ifndef __RELAYS_CONNECTION_H__
-#define __RELAYS_CONNECTION_H__
+#ifndef __RELAYS_LAYOUT_H__
+#define __RELAYS_LAYOUT_H__
 
-#include <cstdint>
+#include <vector>
+
+#include "./connection.h"
+#include "./relay.h"
 
 namespace Relays
 {
 
-enum class Slot : int
-{
-    Input = 0,
-    Command = 1
-};
-
-class Connection
+class Layout
 {
   public:
-    uint64_t from{0};
-    uint64_t to{0};
-    Slot slot{Slot::Input};
-    bool invert{false};
+    /**
+     * Pushes a copy of the layout and returns the id of its first relay
+     * \param layout Layout to add to this one
+     * \return Return the id of the first relay added
+     */
+    uint64_t push_layout(const Layout& layout);
+
+  public:
+    std::vector<Relay> _relays;
+    std::vector<Connection> _connections;
 };
 
 } // namespace Relays
 
-#endif //__RELAYS_CONNECTION_H__
+#endif // __RELAYS_LAYOUT_H__

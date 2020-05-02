@@ -1,5 +1,4 @@
 /*
- *
  * This file is part of Relays.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +19,7 @@
 #ifndef __RELAYS_RELAY_H__
 #define __RELAYS_RELAY_H__
 
+#include <cstdint>
 #include <ostream>
 
 namespace Relays
@@ -28,11 +28,7 @@ namespace Relays
 class Relay
 {
   public:
-    bool input{false};
-    bool command{false};
-    bool output{false};
-
-    friend std::ostream& operator<<(std::ostream& stream, Relay& relay);
+    uint32_t switchDuration{0}; //! Time for the relay to switch state
 };
 
 } // namespace Relays

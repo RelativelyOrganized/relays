@@ -17,41 +17,32 @@
  */
 
 #include "./circuit.h"
-#include <algorithm>
 
 namespace Relays
 {
 
-uint64_t Circuit::push_circuit(const Circuit& circuit)
+void Circuit::setFromLayout(const Layout& layout)
 {
-    if (circuit._relays.empty())
+    // First, convert all Relays to Transistors
+    _transistors.resize(layout._relays.size());
+    for (size_t i = 0; i < layout._relays.size(); ++i)
+        _transistors[i].switchDuration = layout._relays[i].switchDuration;
+
+    _wires.resize(layout._connections.size());
+    for (size_t i = 0; i < layout._connections.size(); ++i)
     {
-        // TODO: error management
-        return 0;
+        auto& connection = layout._connections[i];
+        auto& wire = _wires[i];
+
+        wire.from = &_transistors[connection.from].output;
+
+        if (connection.slot == Slot::Input)
+            wire.to = &_transistors[connection.from].input;
+        else
+            wire.to = &_transistors[connection.from].command;
+
+        wire.invert = connection.invert;
     }
-
-    // This contains the id of the first relay that shall be imported from circuit
-    uint64_t circuit_start = _relays.size();
-
-    // Lets copy the relays
-    _relays.reserve(_relays.size() + circuit._relays.size());
-    std::copy(circuit._relays.begin(), circuit._relays.end(), std::back_inserter(_relays));
-
-    // Lets copy the connections. We need to offset the ids.
-    _connections.reserve(_connections.size() + circuit._connections.size());
-    std::transform(circuit._connections.begin(),
-        circuit._connections.end(),
-        _connections.begin(),
-        [this, offset = circuit_start](const Relays::Connection& input) {
-            Connection output;
-            output.from = input.from + offset;
-            output.to = input.to + offset;
-            output.invert = input.invert;
-            return output;
-        });
-
-    // Done
-    return circuit_start;
 }
 
 } // namespace Relays
