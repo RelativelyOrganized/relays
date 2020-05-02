@@ -19,6 +19,7 @@
 #ifndef __TRANSISTORS_TRANSISTOR_H__
 #define __TRANSISTORS_TRANSISTOR_H__
 
+#include <cstdint>
 #include <ostream>
 
 #include "./slot_types.h"
@@ -40,6 +41,8 @@ class Transistor
     }
 
   public:
+    uint32_t switchDuration{0};
+
     Input input{Input::False};
     Input command{Input::False};
     Output output{Output::False};

@@ -33,8 +33,8 @@ enum class Slot : int
 class Connection
 {
   public:
-    std::uint64_t from{0};
-    std::uint64_t to{0};
+    uint64_t from{0};
+    uint64_t to{0};
     Slot slot{Slot::Input};
     bool invert{false};
 };

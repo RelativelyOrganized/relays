@@ -19,9 +19,8 @@
 #ifndef __RELAYS_RELAY_H__
 #define __RELAYS_RELAY_H__
 
+#include <cstdint>
 #include <ostream>
-
-#include "./slot_types.h"
 
 namespace Relays
 {
@@ -29,11 +28,7 @@ namespace Relays
 class Relay
 {
   public:
-    Input input{Input::False};
-    Input command{Input::False};
-    Output output{Output::False};
-
-    friend std::ostream& operator<<(std::ostream& stream, Relay& relay);
+    uint32_t switchDuration{0}; //! Time for the relay to switch state
 };
 
 } // namespace Relays

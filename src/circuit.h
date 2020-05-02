@@ -21,6 +21,7 @@
 
 #include <vector>
 
+#include "./layout.h"
 #include "./transistor.h"
 #include "./wire.h"
 
@@ -29,6 +30,9 @@ namespace Relays
 
 class Circuit
 {
+  public:
+    void setFromLayout(const Layout& layout);
+
   public:
     std::vector<Transistor> _transistors;
     std::vector<Wire> _wires;

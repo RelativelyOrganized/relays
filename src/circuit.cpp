@@ -22,4 +22,28 @@
 namespace Relays
 {
 
+void Circuit::setFromLayout(const Layout& layout)
+{
+    // First, convert all Relays to Transistors
+    _transistors.resize(layout._relays.size());
+    for (size_t i = 0; i < layout._relays.size(); ++i)
+        _transistors[i].switchDuration = layout._relays[i].switchDuration;
+
+    _wires.resize(layout._connections.size());
+    for (size_t i = 0; i < layout._connections.size(); ++i)
+    {
+        auto& connection = layout._connections[i];
+        auto& wire = _wires[i];
+
+        wire.from = &_transistors[connection.from].output;
+
+        if (connection.slot == Slot::Input)
+            wire.to = &_transistors[connection.from].input;
+        else
+            wire.to = &_transistors[connection.from].command;
+
+        wire.invert = connection.invert;
+    }
+}
+
 } // namespace Relays
