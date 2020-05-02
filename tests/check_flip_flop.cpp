@@ -1,7 +1,7 @@
 #include <cassert>
 
 #include "./circuit.h"
-#include "./relay.h"
+#include "./transistor.h"
 #include "./traverser.h"
 #include "./wire.h"
 
@@ -9,9 +9,9 @@ int main()
 {
     Relays::Circuit flip_flop;
 
-    flip_flop._relays.resize(2);
-    Relays::Relay& r1 = flip_flop._relays.at(0);
-    Relays::Relay& r2 = flip_flop._relays.at(1);
+    flip_flop._transistors.resize(2);
+    Relays::Transistor& r1 = flip_flop._transistors.at(0);
+    Relays::Transistor& r2 = flip_flop._transistors.at(1);
 
     flip_flop._wires.resize(2);
     Relays::Wire& conn_r1_r2_cmd_inv = flip_flop._wires.at(0);

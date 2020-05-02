@@ -16,12 +16,12 @@ bool Traverser::step(Circuit& circuit, uint64_t now, uint32_t dt)
 
 void Traverser::update(Circuit& circuit, uint64_t now, uint32_t dt)
 {
-    if (unlikely(circuit._relays.empty()))
+    if (unlikely(circuit._transistors.empty()))
         return;
 
-    // Relays outputs update step
-    for (auto& relay : circuit._relays)
-        relay.step(now, dt);
+    // Transistors outputs update step
+    for (auto& transistor : circuit._transistors)
+        transistor.step(now, dt);
 }
 
 void Traverser::transfer(Circuit& circuit, uint64_t now, uint32_t dt)

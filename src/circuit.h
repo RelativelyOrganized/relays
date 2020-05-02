@@ -21,7 +21,7 @@
 
 #include <vector>
 
-#include "./relay.h"
+#include "./transistor.h"
 #include "./wire.h"
 
 namespace Relays
@@ -30,7 +30,7 @@ namespace Relays
 class Circuit
 {
   public:
-    std::vector<Relay> _relays;
+    std::vector<Transistor> _transistors;
     std::vector<Wire> _wires;
 };
 
