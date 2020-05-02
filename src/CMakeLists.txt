@@ -31,27 +31,18 @@ include_directories(./)
 add_library(relays-${API_VERSION} STATIC)
 
 target_sources(relays-${API_VERSION} PRIVATE
-    relays.cpp
+    relay.cpp
     circuit.cpp
     simulation.cpp
     traverser.cpp
 )
 
 target_link_libraries(relays-${API_VERSION} pthread)
-set_target_properties(relays-${API_VERSION} PROPERTIES
-    CXX_STANDARD 17
-    CXX_EXTENSIONS OFF
-)
 
 #
 # Relays binary
 #
-add_executable(relays relay.cpp)
-
-set_target_properties(relays PROPERTIES
-    CXX_STANDARD 17
-    CXX_EXTENSIONS OFF
-)
+add_executable(relays relays.cpp)
 target_link_libraries(relays relays-${API_VERSION})
 
 install(TARGETS relays DESTINATION "bin/")
