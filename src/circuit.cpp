@@ -46,9 +46,9 @@ void Circuit::setFromLayout(const Layout& layout)
             wire.from = &_quartz[connection.from].output;
 
         if (connection.slot == Slot::Input)
-            wire.to = &_transistors[connection.from].input;
+            wire.to = &_transistors[connection.to].input;
         else
-            wire.to = &_transistors[connection.from].command;
+            wire.to = &_transistors[connection.to].command;
 
         wire.invert = connection.invert;
     }

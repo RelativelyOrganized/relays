@@ -15,11 +15,14 @@ int main()
     Quartz quartz(clock);
     assert(quartz.period == clock.period);
 
-    quartz.step(5e8, 5e8);
+    quartz.step(5e5, 5e5);
     assert(quartz.output == Output::False);
 
-    quartz.step(1e9, 5e8);
+    quartz.step(1e6, 5e5);
     assert(quartz.output == Output::True);
+
+    quartz.step(2e6, 1e6);
+    assert(quartz.output == Output::False);
 
     return 0;
 }

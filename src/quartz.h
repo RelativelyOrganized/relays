@@ -44,7 +44,7 @@ class Quartz
      */
     void step(uint64_t epoch, uint32_t /*dt*/)
     {
-        auto currentPeriod = static_cast<uint64_t>(static_cast<double>(epoch) / period);
+        auto currentPeriod = static_cast<uint64_t>(static_cast<double>(epoch) / (period * 1e9));
         output = static_cast<Output>(currentPeriod % 2);
     }
 

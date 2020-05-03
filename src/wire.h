@@ -39,7 +39,7 @@ class Wire
     {
         assert(from != nullptr);
         assert(to != nullptr);
-        *to = static_cast<Input>(static_cast<bool>(from) != invert);
+        *to = static_cast<Input>(static_cast<bool>(*from) != invert);
     }
 
   public:

@@ -16,6 +16,7 @@ The following classes are involved at runtime, during a simulation:
 
 * **Transistor**: base element for any circuit, currently merely a struct holding info about its status (command input, data input, data output and inverted data output).
 * **Wire**: a basic structure describing a connection from a **Transistor** output to another one's input.
+* **Quartz**: gives the pace for the circuit to run.
 * **Circuit**: a collection of **Transistors** and **Wires** which together describe a more or less complexe virtual circuit.
 * **Traverser**: object which applies a clock cycle to a **Circuit**, and updates its **Relays** states accordingly.
 * **Simulation**: object which drives the **Traverser**, in particular its time resolution.
@@ -23,4 +24,5 @@ The following classes are involved at runtime, during a simulation:
 On top of that exists an intermediate representation of the system which is converted to a **Circuit** before running the simulation:
 * **Relay**: translates to a **Transistor** at runtime.
 * **Connection**: translates to a **Wire** at runtime.
+* **Clock**: translates to a **Quartz** at runtime.
 * **Layout**: translates to a **Circuit** at runtime.
