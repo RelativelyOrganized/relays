@@ -1,3 +1,7 @@
+#undef NDEBUG // get assert in release mode
+
+#include <cassert>
+
 #include "./circuit.h"
 #include "./connection.h"
 #include "./layout.h"
@@ -19,8 +23,8 @@ int main()
 
     conn_r2_r1_cmd.from = 1;
     conn_r2_r1_cmd.to = 0;
-    conn_r1_r2_cmd_inv.slot = Relays::Slot::Input;
-    conn_r1_r2_cmd_inv.invert = true;
+    conn_r2_r1_cmd.slot = Relays::Slot::Input;
+    conn_r2_r1_cmd.invert = true;
 
     Relays::Circuit circuit(layout);
 

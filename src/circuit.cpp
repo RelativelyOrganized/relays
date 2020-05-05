@@ -23,23 +23,32 @@ namespace Relays
 
 void Circuit::setFromLayout(const Layout& layout)
 {
-    // First, convert all Relays to Transistors
+    // Convert all Relays to Transistors
     _transistors.resize(layout._relays.size());
     for (size_t i = 0; i < layout._relays.size(); ++i)
         _transistors[i].switchDuration = layout._relays[i].switchDuration;
 
+    // Convert all Clocks to Quartz
+    _quartz.reserve(layout._clocks.size());
+    for (const auto& clock : layout._clocks)
+        _quartz.emplace_back(clock);
+
+    // Convert all Connections to Wires
     _wires.resize(layout._connections.size());
     for (size_t i = 0; i < layout._connections.size(); ++i)
     {
         auto& connection = layout._connections[i];
         auto& wire = _wires[i];
 
-        wire.from = &_transistors[connection.from].output;
+        if (connection.source == Source::Relay)
+            wire.from = &_transistors[connection.from].output;
+        else // connection.source == Source.Clock
+            wire.from = &_quartz[connection.from].output;
 
         if (connection.slot == Slot::Input)
-            wire.to = &_transistors[connection.from].input;
+            wire.to = &_transistors[connection.to].input;
         else
-            wire.to = &_transistors[connection.from].command;
+            wire.to = &_transistors[connection.to].command;
 
         wire.invert = connection.invert;
     }

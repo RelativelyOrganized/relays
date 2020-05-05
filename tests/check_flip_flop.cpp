@@ -1,3 +1,5 @@
+#undef NDEBUG // get assert in release mode
+
 #include <cassert>
 
 #include "./circuit.h"
@@ -34,10 +36,8 @@ int main()
     const uint32_t timePerStep = 5;
     uint64_t timeSinceEpoch = 0;
 
-    for (int i = 0; i < 100; ++i)
+    for (int i = 0; i < 4; ++i)
     {
-        assert(static_cast<bool>(r1.output) == desired_state);
-        assert(static_cast<bool>(r2.output) == desired_state);
         desired_state = !desired_state;
         traverser.step(flip_flop, timeSinceEpoch, timePerStep);
         timeSinceEpoch += timePerStep;

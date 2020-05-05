@@ -17,9 +17,6 @@
 
 include_directories(../src/)
 
-add_executable(check_example check_example.cpp)
-add_test(check_example check_example)
-
 add_executable(check_flip_flop check_flip_flop.cpp)
 target_link_libraries(check_flip_flop relays-${API_VERSION})
 add_test(check_flip_flop check_flip_flop)
@@ -27,6 +24,18 @@ add_test(check_flip_flop check_flip_flop)
 add_executable(check_circuit check_circuit.cpp)
 target_link_libraries(check_circuit relays-${API_VERSION})
 add_test(check_circuit check_circuit)
+
+add_executable(check_quartz check_quartz.cpp)
+target_link_libraries(check_quartz relays-${API_VERSION})
+add_test(check_quartz check_quartz)
+
+add_executable(check_transistor check_transistor.cpp)
+target_link_libraries(check_transistor relays-${API_VERSION})
+add_test(check_transistor check_transistor)
+
+add_executable(check_wire check_wire.cpp)
+target_link_libraries(check_wire relays-${API_VERSION})
+add_test(check_wire check_wire)
 
 #
 # Code coverage

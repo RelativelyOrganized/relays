@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "./layout.h"
+#include "./quartz.h"
 #include "./transistor.h"
 #include "./wire.h"
 
@@ -51,6 +52,7 @@ class Circuit
   public:
     std::vector<Transistor> _transistors;
     std::vector<Wire> _wires;
+    std::vector<Quartz> _quartz;
 };
 
 } // namespace Relays
