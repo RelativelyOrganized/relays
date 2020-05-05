@@ -52,6 +52,28 @@ void Circuit::setFromLayout(const Layout& layout)
 
         wire.invert = connection.invert;
     }
+
+    // Convert all Interfaces to pointers to Inputs and Outputs
+    _pinsIn.resize(layout._interfaceIn.size());
+    for (size_t i = 0; i < layout._interfaceIn.size(); ++i)
+    {
+        auto& interface = layout._interfaceIn[i];
+        auto& pin = _pinsIn[i];
+
+        if (interface.slot == Slot::Input)
+            pin = &_transistors[interface.index].input;
+        else
+            pin = &_transistors[interface.index].command;
+    }
+
+    _pinsOut.resize(layout._interfaceOut.size());
+    for (size_t i = 0; i < layout._interfaceOut.size(); ++i)
+    {
+        auto& interface = layout._interfaceOut[i];
+        auto& pin = _pinsOut[i];
+
+        pin = &_transistors[interface.index].output;
+    }
 }
 
 } // namespace Relays

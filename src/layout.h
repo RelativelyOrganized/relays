@@ -28,6 +28,12 @@
 namespace Relays
 {
 
+struct Interface
+{
+    uint64_t index{0};
+    Slot slot{Slot::Input};
+};
+
 class Layout
 {
   public:
@@ -42,6 +48,8 @@ class Layout
     std::vector<Relay> _relays;
     std::vector<Connection> _connections;
     std::vector<Clock> _clocks;
+    std::vector<Interface> _interfaceIn;
+    std::vector<Interface> _interfaceOut;
 };
 
 } // namespace Relays
