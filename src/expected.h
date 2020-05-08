@@ -20,6 +20,7 @@
 #define RELAYS_EXPECTED_H
 
 #include <exception>
+#include <optional>
 
 namespace Relays
 {
@@ -29,10 +30,11 @@ class Expected
 {
   public:
     // Constructors & destructor
-    Expected(const T& value);
-    Expected(const Expected& other);
-    Expected(Expected&& other);
-    ~Expected();
+    constexpr Expected();
+    constexpr Expected(const T& value);
+    constexpr Expected(const Expected& other) noexcept;
+    constexpr Expected(Expected&& other) noexcept;
+    ~Expected() = default;
 
     // Operators
     Expected& operator=(const Expected& other);
@@ -46,24 +48,53 @@ class Expected
     // Do we have a valid value?
     bool succeeded() const;
 
+    // Checks whether this contains a valid value, otherwise throws
+    void check() const;
+
     // Getters
-    const T& get() const;
-    T& get();
+    T& get() &;
+    const T& get() const&;
+
+    T&& get() &&;
+    const T&& get() const&&;
+    ;
 
   private:
-    // Empty constructor
-    Expected();
+    // The (optional) value contained by this
+    std::optional<T> _value;
+
+    // The (optional) exception pointer contained by this
+    std::optional<std::exception_ptr> _exc_ptr;
+};
+
+template <>
+class Expected<void>
+{
+  public:
+    // Constructors & destructor
+    constexpr Expected();
+    constexpr Expected(const Expected<void>& other) noexcept;
+    constexpr Expected(Expected<void>&& other) noexcept;
+    ~Expected() = default;
+
+    // Operators
+    Expected& operator=(const Expected<void>& other);
+    Expected& operator=(Expected<void>&& other);
+
+    // Initialization with exception
+    template <typename E>
+    static Expected<void> fail(const E& exc);
+    static Expected<void> fail(std::exception_ptr ptr);
+
+    // Do we have a valid value?
+    bool succeeded() const;
+
+    // Checks whether this contains a valid value, otherwise throws
+    void check() const;
 
   private:
-    // Our content: either a value or an exception ptr
-    union
-    {
-        T result;
-        std::exception_ptr exc_ptr;
-    };
-
-    // Do we have a value?
-    bool _hasValue;
+    // The (optional) exception pointer contained by this
+    std::optional<std::exception_ptr> _exc_ptr;
 };
 
 } // namespace Relays

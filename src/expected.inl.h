@@ -25,39 +25,30 @@ namespace Relays
 {
 
 template <typename T>
-Expected<T>::Expected(const T& value)
-    : _hasValue{true}
+constexpr Expected<T>::Expected()
+    : _value{}
+    , _exc_ptr{}
 {
 }
 
 template <typename T>
-Expected<T>::Expected(const Expected<T>& other)
-    : _hasValue{other._hasValue}
-{
-    if (other._hasValue)
-        result = other.result;
-    else
-        exc_ptr = other.exc_ptr;
-}
-
-template <typename T>
-Expected<T>::Expected(Expected<T>&& other)
-    : _hasValue{other._hasValue}
-{
-    if (other._hasValue)
-        result = std::move(other.result);
-    else
-        exc_ptr = std::move(other.exc_ptr);
-}
-
-template <typename T>
-Expected<T>::Expected()
-    : _hasValue{false}
+constexpr Expected<T>::Expected(const T& value)
+    : _value{value}
+    , _exc_ptr{}
 {
 }
 
 template <typename T>
-Expected<T>::~Expected()
+constexpr Expected<T>::Expected(const Expected<T>& other) noexcept
+    : _value{other._value}
+    , _exc_ptr{other._exc_ptr}
+{
+}
+
+template <typename T>
+constexpr Expected<T>::Expected(Expected<T>&& other) noexcept
+    : _value{std::move(other._value)}
+    , _exc_ptr{std::move(other._exc_ptr)}
 {
 }
 
@@ -66,11 +57,8 @@ Expected<T>& Expected<T>::operator=(const Expected<T>& other)
 {
     if (this != &other)
     {
-        _hasValue = other._hasValue;
-        if (other._hasValue)
-            result = other.result;
-        else
-            exc_ptr = other.exc_ptr;
+        _value = other._value;
+        _exc_ptr = other._exc_ptr;
     }
 
     return *this;
@@ -81,11 +69,8 @@ Expected<T>& Expected<T>::operator=(Expected<T>&& other)
 {
     if (this != &other)
     {
-        _hasValue = other._hasValue;
-        if (other._hasValue)
-            result = std::move(other.result);
-        else
-            exc_ptr = std::move(other.exc_ptr);
+        _value = std::move(other._value);
+        _exc_ptr = std::move(other._exc_ptr);
     }
 
     return *this;
@@ -96,8 +81,7 @@ template <typename E>
 Expected<T> Expected<T>::fail(const E& exc)
 {
     Expected<T> result;
-    result.exc_ptr = std::make_exception_ptr(exc);
-    result._hasValue = false;
+    result._exc_ptr = std::make_exception_ptr(exc);
     return result;
 }
 
@@ -105,31 +89,113 @@ template <typename T>
 Expected<T> Expected<T>::fail(std::exception_ptr ptr)
 {
     Expected<T> result;
-    result.exc_ptr = ptr;
-    result._hasValue = false;
+    result._exc_ptr = ptr;
     return result;
 }
 
 template <typename T>
 bool Expected<T>::succeeded() const
 {
-    return _hasValue;
+    return (_value.has_value() && !_exc_ptr.has_value());
+}
+
+template <class T>
+void Expected<T>::check() const
+{
+    if (_exc_ptr.has_value())
+        std::rethrow_exception(_exc_ptr.value());
+
+    if (!_value.has_value())
+        throw std::exception{};
 }
 
 template <typename T>
-const T& Expected<T>::get() const
+const T& Expected<T>::get() const&
 {
-    if (!_hasValue)
-        std::rethrow_exception(exc_ptr);
-    return result;
+    check();
+    return _value.value();
 }
 
 template <typename T>
-T& Expected<T>::get()
+T& Expected<T>::get() &
 {
-    if (!_hasValue)
-        std::rethrow_exception(exc_ptr);
+    check();
+    return _value.value();
+}
+
+template <typename T>
+const T&& Expected<T>::get() const&&
+{
+    check();
+    return std::move(_value.value());
+}
+
+template <typename T>
+T&& Expected<T>::get() &&
+{
+    check();
+    return std::move(_value.value());
+}
+
+constexpr Expected<void>::Expected()
+    : _exc_ptr{}
+{
+}
+
+constexpr Expected<void>::Expected(const Expected<void>& other) noexcept
+    : _exc_ptr{other._exc_ptr}
+{
+}
+
+constexpr Expected<void>::Expected(Expected<void>&& other) noexcept
+    : _exc_ptr{std::move(other._exc_ptr)}
+{
+}
+
+Expected<void>& Expected<void>::operator=(const Expected<void>& other)
+{
+    if (this != &other)
+    {
+        _exc_ptr = other._exc_ptr;
+    }
+
+    return *this;
+}
+
+Expected<void>& Expected<void>::operator=(Expected<void>&& other)
+{
+    if (this != &other)
+    {
+        _exc_ptr = std::move(other._exc_ptr);
+    }
+
+    return *this;
+}
+
+template <typename E>
+Expected<void> Expected<void>::fail(const E& exc)
+{
+    Expected<void> result;
+    result._exc_ptr = std::make_exception_ptr(exc);
     return result;
+}
+
+Expected<void> Expected<void>::fail(std::exception_ptr ptr)
+{
+    Expected<void> result;
+    result._exc_ptr = ptr;
+    return result;
+}
+
+bool Expected<void>::succeeded() const
+{
+    return !_exc_ptr.has_value();
+}
+
+void Expected<void>::check() const
+{
+    if (_exc_ptr.has_value())
+        std::rethrow_exception(_exc_ptr.value());
 }
 
 } // namespace Relays
