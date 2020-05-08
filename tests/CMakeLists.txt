@@ -41,6 +41,11 @@ add_executable(check_expected check_expected.cpp)
 target_link_libraries(check_expected relays-${API_VERSION})
 add_test(check_expected check_expected)
 
+add_executable(check_layout check_layout.cpp)
+target_link_libraries(check_layout relays-${API_VERSION})
+add_test(check_layout check_layout)
+
+
 #
 # Code coverage
 #

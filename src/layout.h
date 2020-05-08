@@ -32,22 +32,35 @@ struct Interface
 {
     uint64_t index{0};
     Slot slot{Slot::Input};
+    Source source{Source::Relay};
 };
 
 class Layout
 {
   public:
     /**
-     * Pushes a copy of the layout and returns the id of its first relay
-     * \param layout Layout to add to this one
-     * \return Return the id of the first relay added
+     * Flatten the Layout to a new one with no child.
+     * \return Return a new, flattened Layout
      */
-    uint64_t push_layout(const Layout& layout);
+    Layout flatten() const;
+
+    /**
+     * Add a child layout, and connect it to the current one.
+     * The connections are not used as-is and are updated to match the
+     * current state of the current layout. In any case the correct relays,
+     * clocks or layout IDs must be specified for the connection to be set
+     * \param layout Layout to add as a child
+     * \param in Input connections to the newly added layout
+     * \param out Output connections to the newly added layout
+     * \return bool Return true if the layout was successfully added
+     */
+    bool addLayout(const Layout& layout, const std::vector<Connection>& in, const std::vector<Connection>& out);
 
   public:
+    std::vector<Layout> _childrenLayouts;
     std::vector<Relay> _relays;
-    std::vector<Connection> _connections;
     std::vector<Clock> _clocks;
+    std::vector<Connection> _connections;
     std::vector<Interface> _interfaceIn;
     std::vector<Interface> _interfaceOut;
 };
