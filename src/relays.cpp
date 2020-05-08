@@ -4,6 +4,7 @@
 #include <thread>
 
 #include "./simulation.h"
+#include "./expected.h"
 
 using namespace Relays;
 
