@@ -4,6 +4,7 @@
 #include <thread>
 
 #include "./simulation.h"
+#include "./expected.h"
 
 using namespace Relays;
 
@@ -16,6 +17,8 @@ void leave(int /*signal_value*/)
 
 int main(int /*argc*/, char** /*argv*/)
 {
+
+
     struct sigaction signals;
     signals.sa_handler = leave;
     signals.sa_flags = 0;

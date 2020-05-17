@@ -37,6 +37,10 @@ add_executable(check_wire check_wire.cpp)
 target_link_libraries(check_wire relays-${API_VERSION})
 add_test(check_wire check_wire)
 
+add_executable(check_expected check_expected.cpp)
+target_link_libraries(check_expected relays-${API_VERSION})
+add_test(check_expected check_expected)
+
 #
 # Code coverage
 #
