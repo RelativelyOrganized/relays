@@ -1,5 +1,7 @@
 *.swp
 .idea/
+.mypy_cache/
+__pycache__/
 cmake-build-debug/
 cmake-build-release/
 build/

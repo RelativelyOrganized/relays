@@ -7,9 +7,11 @@
 #include "./layout.h"
 #include "./relay.h"
 
+using namespace Relays;
+
 int main()
 {
-    Relays::Layout layout;
+    Layout layout;
 
     layout._relays.resize(2);
     layout._connections.resize(2);
@@ -18,15 +20,15 @@ int main()
 
     conn_r1_r2_cmd_inv.from = 0;
     conn_r1_r2_cmd_inv.to = 1;
-    conn_r1_r2_cmd_inv.slot = Relays::Slot::Command;
+    conn_r1_r2_cmd_inv.slot = Connection::Slot::Command;
     conn_r1_r2_cmd_inv.invert = true;
 
     conn_r2_r1_cmd.from = 1;
     conn_r2_r1_cmd.to = 0;
-    conn_r2_r1_cmd.slot = Relays::Slot::Input;
+    conn_r2_r1_cmd.slot = Connection::Slot::Input;
     conn_r2_r1_cmd.invert = true;
 
-    Relays::Circuit circuit(layout);
+    Circuit circuit(layout);
 
     assert(circuit._wires.size() == 2);
     assert(circuit._transistors.size() == 2);
