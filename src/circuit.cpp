@@ -21,29 +21,40 @@
 namespace Relays
 {
 
-void Circuit::setFromLayout(const Layout& layout)
+bool Circuit::setFromLayout(const Layout& layout)
 {
+    auto flatLayout = layout.flatten();
     // Convert all Relays to Transistors
-    _transistors.resize(layout._relays.size());
-    for (size_t i = 0; i < layout._relays.size(); ++i)
-        _transistors[i].switchDuration = layout._relays[i].switchDuration;
+    _transistors.resize(flatLayout._relays.size());
+    for (size_t i = 0; i < flatLayout._relays.size(); ++i)
+        _transistors[i].switchDuration = flatLayout._relays[i].switchDuration;
 
     // Convert all Clocks to Quartz
-    _quartz.reserve(layout._clocks.size());
-    for (const auto& clock : layout._clocks)
+    _quartz.reserve(flatLayout._clocks.size());
+    for (const auto& clock : flatLayout._clocks)
         _quartz.emplace_back(clock);
 
     // Convert all Connections to Wires
-    _wires.resize(layout._connections.size());
-    for (size_t i = 0; i < layout._connections.size(); ++i)
+    _wires.resize(flatLayout._connections.size());
+    for (size_t i = 0; i < flatLayout._connections.size(); ++i)
     {
-        auto& connection = layout._connections[i];
+        auto& connection = flatLayout._connections[i];
         auto& wire = _wires[i];
 
         if (connection.source == Source::Relay)
+        {
             wire.from = &_transistors[connection.from].output;
-        else // connection.source == Source.Clock
+        }
+        else if (connection.source == Source::Clock)
+        {
             wire.from = &_quartz[connection.from].output;
+        }
+        else
+        {
+            // connection.source == Source::Layout should not happen
+            // the Layout should have been flattened before conversion to Circuit
+            return false;
+        }
 
         if (connection.slot == Slot::Input)
             wire.to = &_transistors[connection.to].input;
@@ -52,6 +63,30 @@ void Circuit::setFromLayout(const Layout& layout)
 
         wire.invert = connection.invert;
     }
+
+    // Convert all Interfaces to pointers to Inputs and Outputs
+    _pinsIn.resize(flatLayout._interfaceIn.size());
+    for (size_t i = 0; i < flatLayout._interfaceIn.size(); ++i)
+    {
+        auto& interface = flatLayout._interfaceIn[i];
+        auto& pin = _pinsIn[i];
+
+        if (interface.slot == Slot::Input)
+            pin = &_transistors[interface.index].input;
+        else
+            pin = &_transistors[interface.index].command;
+    }
+
+    _pinsOut.resize(flatLayout._interfaceOut.size());
+    for (size_t i = 0; i < flatLayout._interfaceOut.size(); ++i)
+    {
+        auto& interface = flatLayout._interfaceOut[i];
+        auto& pin = _pinsOut[i];
+
+        pin = &_transistors[interface.index].output;
+    }
+
+    return true;
 }
 
 } // namespace Relays

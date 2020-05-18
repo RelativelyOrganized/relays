@@ -41,6 +41,11 @@ add_executable(check_expected check_expected.cpp)
 target_link_libraries(check_expected relays-${API_VERSION})
 add_test(check_expected check_expected)
 
+add_executable(check_layout check_layout.cpp)
+target_link_libraries(check_layout relays-${API_VERSION})
+add_test(check_layout check_layout)
+
+
 #
 # Code coverage
 #
@@ -50,13 +55,16 @@ if (TEST_COVERAGE)
             COMMAND mkdir -p ${CMAKE_BINARY_DIR}/coverage
             COMMAND lcov --no-external --capture --initial
                 --directory ${CMAKE_SOURCE_DIR}
+                --exclude '${CMAKE_SOURCE_DIR}/tests/*'
                 --output-file coverage/relays_base.info
             COMMAND make test
             COMMAND lcov --no-external --capture
                 --directory ${CMAKE_SOURCE_DIR}
+                --exclude '${CMAKE_SOURCE_DIR}/tests/*'
                 --output-file coverage/relays.info
             COMMAND lcov --add-tracefile ${CMAKE_BINARY_DIR}/coverage/relays_base.info
                 --add-tracefile ${CMAKE_BINARY_DIR}/coverage/relays.info
+                --exclude '${CMAKE_SOURCE_DIR}/tests/*'
                 --output-file ${CMAKE_BINARY_DIR}/coverage/relays_total.info
             COMMAND genhtml --output-directory ${CMAKE_BINARY_DIR}/coverage ${CMAKE_BINARY_DIR}/coverage/relays_total.info
             WORKING_DIRECTORY ${CMAKE_BINARY_DIR}

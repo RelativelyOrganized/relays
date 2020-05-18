@@ -44,15 +44,19 @@ class Circuit
     Circuit(const Layout& layout) { setFromLayout(layout); }
 
     /**
-     * Set the circuit from the given Layout
+     * Set the circuit from the given Layout. If this fails, the Circuit
+     * will most certainly be in an unusable state.
      * \param layout Layout
+     * \return Return true if the Layout was set correctly.
      */
-    void setFromLayout(const Layout& layout);
+    bool setFromLayout(const Layout& layout);
 
   public:
     std::vector<Transistor> _transistors;
     std::vector<Wire> _wires;
     std::vector<Quartz> _quartz;
+    std::vector<Input*> _pinsIn;
+    std::vector<Output*> _pinsOut;
 };
 
 } // namespace Relays
