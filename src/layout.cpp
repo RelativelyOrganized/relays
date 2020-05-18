@@ -101,8 +101,8 @@ Layout Layout::flatten() const
     }
 
     // All selected layouts have to be flattened too
-    for (auto& [id, layout] : selectedLayouts)
-        layout = layout.flatten();
+    for (auto& layout : selectedLayouts)
+        layout.second = layout.second.flatten();
 
     // Now we incorporate it inside the flat layout
     size_t relayShift = _relays.size();
