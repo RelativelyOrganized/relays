@@ -27,4 +27,6 @@ jobs:
         cmake ..
         make -j$(nproc)
     - name: Test
-      run: make test
+      run: |
+        cd build
+        make test
