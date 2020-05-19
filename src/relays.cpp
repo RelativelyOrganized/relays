@@ -17,8 +17,6 @@ void leave(int /*signal_value*/)
 
 int main(int /*argc*/, char** /*argv*/)
 {
-
-
     struct sigaction signals;
     signals.sa_handler = leave;
     signals.sa_flags = 0;

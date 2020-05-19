@@ -21,7 +21,7 @@
 
 #include <thread>
 
-#include "./circuit.h"
+#include "./layout.h"
 #include "./traverser.h"
 
 namespace Relays
@@ -43,10 +43,10 @@ class Simulation
     bool stop();
 
     /**
-     * Set the circuit to work on
-     * \param circuit Circuit to work on
+     * Set the layout to work on
+     * \param layout Layout to work on
      */
-    void setCircuit(const Circuit& circuit) { _circuit = circuit; }
+    void setLayout(const Layout& layout) { _layout = layout; }
 
     /**
      * Set the step period, in ns
@@ -57,7 +57,7 @@ class Simulation
   private:
     uint32_t _step_period{5}; //! Time between each simulation step, in ns
     Traverser _traverser;
-    Circuit _circuit;
+    Layout _layout;
 
     bool _continue{false};
     std::thread _simulationThread{};

@@ -46,15 +46,15 @@ Layout createLayout()
     connections[0].to = 1;
     connections[1].from = 0;
     connections[1].to = 1;
-    connections[1].source = Source::Clock;
-    connections[1].sink = Sink::Relay;
+    connections[1].source = Connection::Source::Clock;
+    connections[1].sink = Connection::Sink::Relay;
 
     auto& interfaceIn_1 = layout._interfaceIn[0];
     auto& interfaceIn_2 = layout._interfaceIn[1];
     interfaceIn_1.index = 0;
-    interfaceIn_1.slot = Slot::Input;
+    interfaceIn_1.slot = Interface::Slot::Input;
     interfaceIn_2.index = 0;
-    interfaceIn_2.slot = Slot::Command;
+    interfaceIn_2.slot = Interface::Slot::Command;
 
     auto& interfaceOut = layout._interfaceOut[0];
     interfaceOut.index = 1;
@@ -83,15 +83,15 @@ void testChildLayout()
     Connection inputConnection;
     inputConnection.from = 0;
     inputConnection.to = 0;
-    inputConnection.source = Source::Relay;
-    inputConnection.sink = Sink::Layout;
+    inputConnection.source = Connection::Source::Relay;
+    inputConnection.sink = Connection::Sink::Layout;
     inputConnection.invert = true;
 
     Connection outputConnection;
     outputConnection.from = 0;
     outputConnection.to = 1;
-    outputConnection.source = Source::Layout;
-    outputConnection.sink = Sink::Relay;
+    outputConnection.source = Connection::Source::Layout;
+    outputConnection.sink = Connection::Sink::Relay;
 
     layout.addLayout(childLayout, {inputConnection}, {outputConnection});
     assert(layout._childrenLayouts.size() == 1);
@@ -111,40 +111,40 @@ void testChildLayout()
     auto& connections = flatLayout._connections;
     assert(connections[0].from == 0);
     assert(connections[0].to == 1);
-    assert(connections[0].source == Source::Relay);
-    assert(connections[0].sink == Sink::Relay);
+    assert(connections[0].source == Connection::Source::Relay);
+    assert(connections[0].sink == Connection::Sink::Relay);
 
     assert(connections[1].from == 0);
     assert(connections[1].to == 1);
-    assert(connections[1].source == Source::Clock);
-    assert(connections[1].sink == Sink::Relay);
+    assert(connections[1].source == Connection::Source::Clock);
+    assert(connections[1].sink == Connection::Sink::Relay);
 
     assert(connections[2].from == 0);
     assert(connections[2].to == 2);
-    assert(connections[2].source == Source::Relay);
-    assert(connections[2].sink == Sink::Relay);
+    assert(connections[2].source == Connection::Source::Relay);
+    assert(connections[2].sink == Connection::Sink::Relay);
 
     assert(connections[3].from == 3);
     assert(connections[3].to == 1);
-    assert(connections[3].source == Source::Relay);
-    assert(connections[3].sink == Sink::Relay);
+    assert(connections[3].source == Connection::Source::Relay);
+    assert(connections[3].sink == Connection::Sink::Relay);
 
     assert(connections[4].from == 2);
     assert(connections[4].to == 3);
-    assert(connections[4].source == Source::Relay);
-    assert(connections[4].sink == Sink::Relay);
+    assert(connections[4].source == Connection::Source::Relay);
+    assert(connections[4].sink == Connection::Sink::Relay);
 
     assert(connections[5].from == 1);
     assert(connections[5].to == 3);
-    assert(connections[5].source == Source::Clock);
-    assert(connections[5].sink == Sink::Relay);
+    assert(connections[5].source == Connection::Source::Clock);
+    assert(connections[5].sink == Connection::Sink::Relay);
 
     // And now, check interfaces
     auto& in = flatLayout._interfaceIn;
     assert(in[0].index == 0);
-    assert(in[0].slot == Slot::Input);
+    assert(in[0].slot == Interface::Slot::Input);
     assert(in[1].index == 0);
-    assert(in[1].slot == Slot::Command);
+    assert(in[1].slot == Interface::Slot::Command);
 
     auto& out = flatLayout._interfaceOut;
     assert(out[0].index == 1);

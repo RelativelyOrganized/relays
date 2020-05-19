@@ -24,27 +24,28 @@
 namespace Relays
 {
 
-enum class Slot : uint8_t
-{
-    Input = 0,
-    Command = 1
-};
-
-enum class Source : uint8_t
-{
-    Relay = 0,
-    Clock = 1,
-    Layout = 2
-};
-
-enum class Sink : uint8_t
-{
-    Relay = 0,
-    Layout = 1
-};
-
 class Connection
 {
+  public:
+    enum class Slot : uint8_t
+    {
+        Input = 0,
+        Command = 1
+    };
+
+    enum class Source : uint8_t
+    {
+        Relay = 0,
+        Clock = 1,
+        Layout = 2
+    };
+
+    enum class Sink : uint8_t
+    {
+        Relay = 0,
+        Layout = 1
+    };
+
   public:
     uint64_t from{0};
     uint64_t to{0};

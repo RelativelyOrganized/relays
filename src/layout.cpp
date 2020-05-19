@@ -76,16 +76,16 @@ Layout Layout::flatten() const
     std::map<uint64_t, const Layout*> outLayouts;
     for (const auto& connection : _connections)
     {
-        if (connection.source != Source::Layout && connection.sink != Sink::Layout)
+        if (connection.source != Connection::Source::Layout && connection.sink != Connection::Sink::Layout)
             flatLayout._connections.push_back(connection);
-        else if (connection.sink == Sink::Layout)
+        else if (connection.sink == Connection::Sink::Layout)
             outLayouts[connection.layoutOut] = &_childrenLayouts[connection.layoutOut];
     }
 
     std::map<uint64_t, Layout> selectedLayouts;
     for (const auto& connection : _connections)
     {
-        if (connection.source != Source::Layout && connection.sink != Sink::Layout)
+        if (connection.source != Connection::Source::Layout && connection.sink != Connection::Sink::Layout)
             continue;
 
         auto outLayoutIt = outLayouts.find(connection.layoutIn);
@@ -117,9 +117,9 @@ Layout Layout::flatten() const
         for (const auto& connection : layout._connections)
         {
             auto flatConnection = connection;
-            if (flatConnection.source == Source::Relay)
+            if (flatConnection.source == Connection::Source::Relay)
                 flatConnection.from += relayShift;
-            else if (flatConnection.source == Source::Clock)
+            else if (flatConnection.source == Connection::Source::Clock)
                 flatConnection.from += clockShift;
 
             flatConnection.to += relayShift;
@@ -138,20 +138,20 @@ Layout Layout::flatten() const
     // Update connections related to this layout
     for (auto& connection : flatLayout._connections)
     {
-        if (connection.source == Source::Layout)
+        if (connection.source == Connection::Source::Layout)
         {
             auto& input = selectedLayouts[connection.layoutIn]._interfaceOut[connection.from];
-            if (input.source == Source::Relay)
+            if (input.source == Interface::Source::Relay)
             {
                 connection.from = input.index + layoutRelaysShift[connection.layoutIn];
                 connection.layoutIn = 0;
-                connection.source = Source::Relay;
+                connection.source = Connection::Source::Relay;
             }
-            else if (input.source == Source::Clock)
+            else if (input.source == Interface::Source::Clock)
             {
                 connection.from = input.index + layoutClocksShift[connection.layoutIn];
                 connection.layoutIn = 0;
-                connection.source = Source::Clock;
+                connection.source = Connection::Source::Clock;
             }
             else
             {
@@ -159,13 +159,25 @@ Layout Layout::flatten() const
             }
         }
 
-        if (connection.sink == Sink::Layout)
+        if (connection.sink == Connection::Sink::Layout)
         {
             auto& output = selectedLayouts[connection.layoutOut]._interfaceIn[connection.to];
             connection.to = output.index + layoutRelaysShift[connection.layoutOut];
             connection.layoutOut = 0;
-            connection.sink = Sink::Relay;
-            connection.slot = output.slot;
+            connection.sink = Connection::Sink::Relay;
+
+            switch (output.slot)
+            {
+            default:
+                assert(false);
+                break;
+            case Interface::Slot::Input:
+                connection.slot = Connection::Slot::Input;
+                break;
+            case Interface::Slot::Command:
+                connection.slot = Connection::Slot::Command;
+                break;
+            }
         }
     }
 
@@ -178,7 +190,7 @@ bool Layout::addLayout(const Layout& layout, const std::vector<Connection>& in, 
 
     for (const auto& connection : in)
     {
-        if (connection.sink != Sink::Layout)
+        if (connection.sink != Connection::Sink::Layout)
             return false;
 
         auto newConnection = connection;
@@ -188,7 +200,7 @@ bool Layout::addLayout(const Layout& layout, const std::vector<Connection>& in, 
 
     for (const auto& connection : out)
     {
-        if (connection.source != Source::Layout)
+        if (connection.source != Connection::Source::Layout)
             return false;
 
         auto newConnection = connection;

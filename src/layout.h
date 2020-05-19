@@ -30,6 +30,19 @@ namespace Relays
 
 struct Interface
 {
+    enum class Slot : uint8_t
+    {
+        Input = 0,
+        Command = 1
+    };
+
+    enum class Source : uint8_t
+    {
+        Relay = 0,
+        Clock = 1,
+        Layout = 2
+    };
+
     uint64_t index{0};
     Slot slot{Slot::Input};
     Source source{Source::Relay};

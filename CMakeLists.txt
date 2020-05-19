@@ -47,6 +47,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-march=native" COMPILER_SUPPORTS_MARCH_NATIVE)
@@ -60,7 +61,18 @@ if (TEST_COVERAGE)
 endif()
 
 #
+# Dependencies
+#
+set(Python_ADDITIONAL_VERSIONS 3.7)
+find_package(PythonLibs REQUIRED)
+
+#
 # Sources
 #
 add_subdirectory(src)
 add_subdirectory(tests)
+
+#
+# WRAPPERS
+#
+add_subdirectory(wrappers/python)

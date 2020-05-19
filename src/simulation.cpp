@@ -1,4 +1,5 @@
 #include "./simulation.h"
+#include "./circuit.h"
 
 #include <cassert>
 #include <iostream>
@@ -19,9 +20,10 @@ bool Simulation::run()
     _continue = true;
     _simulationThread = std::thread([this]() -> void {
         uint64_t timeSinceEpoch = 0;
+        Circuit circuit(_layout);
         while (_continue)
         {
-            _traverser.step(_circuit, timeSinceEpoch, _step_period);
+            _traverser.step(circuit, timeSinceEpoch, _step_period);
             timeSinceEpoch += _step_period;
         }
     });

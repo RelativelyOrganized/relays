@@ -41,22 +41,22 @@ bool Circuit::setFromLayout(const Layout& layout)
         auto& connection = flatLayout._connections[i];
         auto& wire = _wires[i];
 
-        if (connection.source == Source::Relay)
+        if (connection.source == Connection::Source::Relay)
         {
             wire.from = &_transistors[connection.from].output;
         }
-        else if (connection.source == Source::Clock)
+        else if (connection.source == Connection::Source::Clock)
         {
             wire.from = &_quartz[connection.from].output;
         }
         else
         {
-            // connection.source == Source::Layout should not happen
+            // connection.source == Connection::Source::Layout should not happen
             // the Layout should have been flattened before conversion to Circuit
             return false;
         }
 
-        if (connection.slot == Slot::Input)
+        if (connection.slot == Connection::Slot::Input)
             wire.to = &_transistors[connection.to].input;
         else
             wire.to = &_transistors[connection.to].command;
@@ -71,7 +71,7 @@ bool Circuit::setFromLayout(const Layout& layout)
         auto& interface = flatLayout._interfaceIn[i];
         auto& pin = _pinsIn[i];
 
-        if (interface.slot == Slot::Input)
+        if (interface.slot == Interface::Slot::Input)
             pin = &_transistors[interface.index].input;
         else
             pin = &_transistors[interface.index].command;
