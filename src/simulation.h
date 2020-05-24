@@ -31,10 +31,23 @@ class Simulation
 {
   public:
     /**
+     * Get whether the simulation is running
+     * \return Return true if the simulation is running
+     */
+    bool isRunning() const { return _continue; }
+
+    /**
      * Runs the simulation (in a separate thread)
      * \return Return false if the simulation is already running, true otherwise
      */
     bool run();
+
+    /**
+     * Runs a fixed amount of simulated time
+     * \param timeLimit Time limit after which to stop the simulation, in ns
+     * \return Return false if the simulation is already running, true otherwise
+     */
+    bool run(uint64_t timeLimit);
 
     /**
      * Stop the simulation

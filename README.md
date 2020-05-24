@@ -1,6 +1,8 @@
 Relays
 ======
 
+![CI](https://github.com/RelativelyOrganized/relays/workflows/CI/badge.svg?branch=develop)
+
 Relays (codename) is a simulation software which goal is to allow for building virtual electronic device from the ground up. What this mean is that the base building block are relays, and that an electronic circuit is simulated from a description of the connections between some (sometimes a lot) of them.
 
 The goals of this project are mostly educational:

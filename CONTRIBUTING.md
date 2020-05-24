@@ -1,6 +1,29 @@
 CONTRIBUTING
 ============
 
+## Installation
+
+Relays is (as of yet) not dependent on any external library, except for the Python headers and a C++17 compliant compiler. To build it, do as follows:
+
+```bash
+mkdir build && cd build
+cmake ..
+make -j$(nproc) && sudo make install
+sudo ldconfig  # only necessary the first time to register the library
+```
+
+### Python
+
+Given that the Python header files are installed on the system, a Python wrapper for **Relays** will be built along the C++ library. This wrapper is needed for the most advanced uses of this tool.
+
+Once built and installed, you can get information about what's available as follows:
+
+```python
+import pyrelays
+
+help(pyrelays)
+```
+
 ## Coding style
 
 We use LLVM style for the C++ code, with a few exceptions. See the [clang-format configuration](./.clang-format) for more about this.
