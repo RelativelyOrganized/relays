@@ -108,7 +108,8 @@ PYBIND11_MODULE(pyrelays, m)
      */
     py::class_<Simulation>(m, "Simulation")
         .def(py::init<>())
-        .def("run", &Simulation::run)
+        .def("is_running", &Simulation::isRunning)
+        .def("run", (bool (Simulation::*)(uint64_t)) & Simulation::run, py::arg("time_limit") = 0)
         .def("stop", &Simulation::stop)
         .def("set_layout", &Simulation::setLayout)
         .def("set_step_period", &Simulation::setStepPeriod);

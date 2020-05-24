@@ -11,5 +11,3 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 install(TARGETS pyrelays LIBRARY DESTINATION ${PYTHON_DIST_PACKAGES})
-
-add_test(NAME check_pyrelays COMMAND bash -c "PYTHONPATH=${CMAKE_BINARY_DIR}/wrappers/python python3 ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_pyrelays.py")
